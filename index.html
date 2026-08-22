@@ -347,7 +347,13 @@ footer {
     <p>An Interactive Digital Atlas</p>
 
 </header>
-
+    
+<button
+    id="calibrationButton"
+    onclick="toggleCalibration()"
+>
+    Arrange Map Pins
+</button>
 
 <nav>
 
@@ -829,7 +835,6 @@ footer {
 
 <script>
 
-
 function showPlace(
     title,
     category,
@@ -841,25 +846,20 @@ function showPlace(
         "placeTitle"
     ).textContent = title;
 
-
     document.getElementById(
         "placeCategory"
     ).textContent = category;
 
-
     document.getElementById(
         "placeDescription"
     ).textContent = description;
-
 
     const detailsBox =
         document.getElementById(
             "placeDetails"
         );
 
-
     detailsBox.innerHTML = "";
-
 
     details.forEach(function(detail) {
 
@@ -873,7 +873,6 @@ function showPlace(
         detailsBox.appendChild(tag);
 
     });
-
 
     document
         .querySelector(".information")
@@ -889,7 +888,6 @@ function showCategory(category) {
 
     const pins =
         document.querySelectorAll(".pin");
-
 
     pins.forEach(function(pin) {
 
@@ -918,8 +916,205 @@ function showCategory(category) {
 }
 
 
+/* =====================================
+   MAP PIN CALIBRATION
+===================================== */
+
+let calibrationMode = false;
+
+
+function toggleCalibration() {
+
+    calibrationMode =
+        !calibrationMode;
+
+    const button =
+        document.getElementById(
+            "calibrationButton"
+        );
+
+    if (calibrationMode) {
+
+        button.textContent =
+            "✓ Placement Mode ON";
+
+        button.style.background =
+            "#687b5d";
+
+        button.style.color =
+            "white";
+
+    }
+
+    else {
+
+        button.textContent =
+            "Arrange Map Pins";
+
+        button.style.background =
+            "";
+
+        button.style.color =
+            "";
+
+    }
+
+}
+
+
+document
+    .querySelectorAll(".pin")
+    .forEach(function(pin) {
+
+        let dragging = false;
+
+
+        pin.addEventListener(
+            "pointerdown",
+            function(event) {
+
+                if (!calibrationMode) {
+                    return;
+                }
+
+                dragging = true;
+
+                pin.setPointerCapture(
+                    event.pointerId
+                );
+
+                event.preventDefault();
+
+            }
+        );
+
+
+        pin.addEventListener(
+            "pointermove",
+            function(event) {
+
+                if (
+                    !calibrationMode ||
+                    !dragging
+                ) {
+                    return;
+                }
+
+
+                const map =
+                    document.querySelector(
+                        ".map"
+                    );
+
+
+                const rect =
+                    map.getBoundingClientRect();
+
+
+                let x =
+                    ((event.clientX - rect.left)
+                    / rect.width) * 100;
+
+
+                let y =
+                    ((event.clientY - rect.top)
+                    / rect.height) * 100;
+
+
+                x =
+                    Math.max(
+                        0,
+                        Math.min(100, x)
+                    );
+
+
+                y =
+                    Math.max(
+                        0,
+                        Math.min(100, y)
+                    );
+
+
+                pin.style.left =
+                    x + "%";
+
+
+                pin.style.top =
+                    y + "%";
+
+
+                pin.title =
+                    "left: " +
+                    x.toFixed(2) +
+                    "% | top: " +
+                    y.toFixed(2) +
+                    "%";
+
+            }
+        );
+
+
+        pin.addEventListener(
+            "pointerup",
+            function() {
+
+                if (
+                    !calibrationMode ||
+                    !dragging
+                ) {
+                    return;
+                }
+
+                dragging = false;
+
+
+                const map =
+                    document.querySelector(
+                        ".map"
+                    );
+
+
+                const rect =
+                    map.getBoundingClientRect();
+
+
+                const pinRect =
+                    pin.getBoundingClientRect();
+
+
+                const centerX =
+                    pinRect.left +
+                    pinRect.width / 2;
+
+
+                const centerY =
+                    pinRect.top +
+                    pinRect.height / 2;
+
+
+                const x =
+                    ((centerX - rect.left)
+                    / rect.width) * 100;
+
+
+                const y =
+                    ((centerY - rect.top)
+                    / rect.height) * 100;
+
+
+                alert(
+                    "PIN POSITION\n\n" +
+                    "left: " +
+                    x.toFixed(2) +
+                    "%;\n" +
+                    "top: " +
+                    y.toFixed(2) +
+                    "%;"
+                );
+
+            }
+        );
+
+    });
+
 </script>
-
-
-</body>
-</html>
