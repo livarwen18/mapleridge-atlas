@@ -1,543 +1,870 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Mapleridge Atlas</title>
 
 <style>
-    * {
-        box-sizing: border-box;
-    }
 
-    body {
-        margin: 0;
-        background: #eee9dc;
-        color: #302d27;
-        font-family: Georgia, "Times New Roman", serif;
-    }
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #eee9dc;
+    color: #302d27;
+    font-family: Georgia, "Times New Roman", serif;
+}
+
+/* HEADER */
+
+header {
+    text-align: center;
+    padding: 55px 20px 35px;
+    background: #e3ddcf;
+    border-bottom: 1px solid #b9b09f;
+}
+
+header h1 {
+    margin: 0;
+    font-size: clamp(40px, 7vw, 76px);
+    letter-spacing: 0.16em;
+    font-weight: normal;
+}
+
+header p {
+    margin: 12px 0 0;
+    color: #70695e;
+    font-style: italic;
+    font-size: 16px;
+}
+
+/* NAVIGATION */
+
+nav {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    padding: 15px;
+    background: #f6f2e9;
+    border-bottom: 1px solid #c9c0b0;
+}
+
+nav button {
+    border: 1px solid #aaa08f;
+    background: transparent;
+    color: #403b33;
+    padding: 9px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-family: Georgia, serif;
+}
+
+nav button:hover {
+    background: #ded6c7;
+}
+
+/* INTRO */
+
+.intro {
+    max-width: 1000px;
+    margin: 35px auto;
+    padding: 0 20px;
+    text-align: center;
+}
+
+.intro h2 {
+    font-size: 30px;
+    font-weight: normal;
+    margin-bottom: 8px;
+}
+
+.intro p {
+    max-width: 680px;
+    margin: auto;
+    line-height: 1.7;
+    color: #655f55;
+}
+
+/* MAP */
+
+.atlas {
+    max-width: 1250px;
+    margin: 35px auto 70px;
+    padding: 0 20px;
+}
+
+.map-wrapper {
+    position: relative;
+    width: 100%;
+    overflow: auto;
+    background: #faf8f1;
+    border: 2px solid #aaa08f;
+    border-radius: 8px;
+    box-shadow: 0 8px 25px rgba(60,50,40,0.12);
+}
+
+.map {
+    position: relative;
+    width: 100%;
+    min-width: 750px;
+    line-height: 0;
+}
+
+.map img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* MAP PINS */
+
+.pin {
+    position: absolute;
+
+    width: 34px;
+    height: 34px;
+
+    transform: translate(-50%, -50%);
+
+    border: 2px solid white;
+    border-radius: 50%;
+
+    color: white;
+
+    cursor: pointer;
+
+    z-index: 10;
+
+    box-shadow:
+        0 2px 7px rgba(0,0,0,0.30);
+
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+.pin:hover {
+    transform: translate(-50%, -50%) scale(1.25);
+
+    box-shadow:
+        0 4px 12px rgba(0,0,0,0.35);
+
+    z-index: 20;
+}
+
+.pin:focus {
+    outline: 3px solid #6f624f;
+}
+
+/* PIN CATEGORIES */
+
+.school {
+    background: #665d52;
+}
+
+.business {
+    background: #866b4e;
+}
+
+.home {
+    background: #687b5d;
+}
+
+.nature {
+    background: #557458;
+}
+
+.civic {
+    background: #67635d;
+}
+
+.stable {
+    background: #765f4d;
+}
+
+/* CHARACTER HOME DOTS */
+
+.character-pin {
+    width: 29px;
+    height: 29px;
+    border: 3px solid white;
+}
+
+.isabel {
+    background: #7954a6;
+}
+
+.briar {
+    background: #77805a;
+}
+
+.vera {
+    background: #238bc4;
+}
+
+.clara {
+    background: #ad8140;
+}
+
+/* INFORMATION PANEL */
+
+.information {
+    margin-top: 22px;
+
+    background: #faf7ef;
+
+    border: 1px solid #c6bdac;
+
+    border-radius: 8px;
+
+    padding: 32px;
+
+    min-height: 230px;
+
+    box-shadow: 0 4px 15px rgba(60,50,40,0.07);
+}
+
+.category {
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+
+    font-family: Arial, sans-serif;
+
+    font-size: 11px;
+
+    color: #8a7b68;
+}
+
+.information h2 {
+    font-size: 30px;
+    margin: 8px 0;
+    font-weight: normal;
+}
+
+.information p {
+    max-width: 850px;
+
+    line-height: 1.75;
+
+    color: #5f594f;
+}
+
+.details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+
+    margin-top: 18px;
+}
+
+.tag {
+    background: #e7e0d3;
+
+    padding: 7px 11px;
+
+    border-radius: 15px;
+
+    font-family: Arial, sans-serif;
+
+    font-size: 11px;
+}
+
+/* MAP NOTE */
+
+.map-note {
+    text-align: center;
+
+    padding: 14px;
+
+    color: #81796c;
+
+    font-family: Arial, sans-serif;
+
+    font-size: 11px;
+
+    letter-spacing: 0.04em;
+}
+
+/* FOOTER */
+
+footer {
+    text-align: center;
+
+    padding: 38px 20px;
+
+    color: #777064;
+
+    font-size: 12px;
+
+    border-top: 1px solid #c8c0b0;
+}
+
+/* MOBILE */
+
+@media (max-width: 700px) {
 
     header {
-        text-align: center;
-        padding: 50px 20px 30px;
-        background: #e3ddcf;
-        border-bottom: 1px solid #b9b09f;
+        padding: 40px 15px 25px;
     }
 
-    header h1 {
-        margin: 0;
-        font-size: clamp(38px, 7vw, 72px);
-        letter-spacing: 0.15em;
-        font-weight: normal;
+    .map {
+        min-width: 900px;
     }
-
-    header p {
-        margin: 12px 0 0;
-        color: #70695e;
-        font-style: italic;
-        font-size: 16px;
-    }
-
-    nav {
-        display: flex;
-        justify-content: center;
-        gap: 8px;
-        flex-wrap: wrap;
-        padding: 15px;
-        background: #f6f2e9;
-        border-bottom: 1px solid #c9c0b0;
-    }
-
-    nav button {
-        border: 1px solid #aaa08f;
-        background: transparent;
-        color: #403b33;
-        padding: 9px 16px;
-        border-radius: 20px;
-        cursor: pointer;
-        font-family: Georgia, serif;
-    }
-
-    nav button:hover {
-        background: #ded6c7;
-    }
-
-    .intro {
-        max-width: 1000px;
-        margin: 35px auto;
-        padding: 0 20px;
-        text-align: center;
-    }
-
-    .intro h2 {
-        font-size: 30px;
-        font-weight: normal;
-        margin-bottom: 8px;
-    }
-
-    .intro p {
-        max-width: 650px;
-        margin: auto;
-        line-height: 1.7;
-        color: #655f55;
-    }
-
-    .atlas {
-        max-width: 1200px;
-        margin: 30px auto 70px;
-        padding: 0 20px;
-    }
-
-    .map-area {
-        position: relative;
-        min-height: 650px;
-        background: #ddd8ca;
-        border: 2px solid #aaa08f;
-        overflow: hidden;
-        border-radius: 8px;
-    }
-
-    /* Roads */
-
-    .road {
-        position: absolute;
-        background: #c9c2b4;
-        border: 1px solid #b2aa9b;
-    }
-
-    .road.horizontal {
-        width: 110%;
-        height: 32px;
-        left: -5%;
-        top: 48%;
-        transform: rotate(-4deg);
-    }
-
-    .road.vertical {
-        width: 30px;
-        height: 115%;
-        left: 52%;
-        top: -8%;
-        transform: rotate(2deg);
-    }
-
-    .road.diagonal-one {
-        width: 75%;
-        height: 22px;
-        left: 10%;
-        top: 28%;
-        transform: rotate(17deg);
-    }
-
-    .road.diagonal-two {
-        width: 70%;
-        height: 20px;
-        left: 15%;
-        top: 70%;
-        transform: rotate(-12deg);
-    }
-
-    /* Creek */
-
-    .creek {
-        position: absolute;
-        left: -10%;
-        bottom: 5%;
-        width: 120%;
-        height: 75px;
-        background: #b8c8c5;
-        transform: rotate(-4deg);
-        border-top: 2px solid #91aaa5;
-        border-bottom: 2px solid #91aaa5;
-    }
-
-    .woodland {
-        position: absolute;
-        left: 3%;
-        bottom: 2%;
-        width: 38%;
-        height: 28%;
-        background: #b8c1a5;
-        border-radius: 50%;
-        opacity: 0.65;
-    }
-
-    .town-label {
-        position: absolute;
-        color: #777064;
-        font-size: 12px;
-        letter-spacing: 0.08em;
-    }
-
-    /* Location pins */
-
-    .pin {
-        position: absolute;
-        width: 36px;
-        height: 36px;
-        border: 2px solid white;
-        border-radius: 50%;
-        color: white;
-        cursor: pointer;
-        z-index: 5;
-        box-shadow: 0 2px 7px rgba(0,0,0,0.25);
-        font-family: Arial, sans-serif;
-        font-size: 12px;
-        font-weight: bold;
-        transition: transform 0.15s ease;
-    }
-
-    .pin:hover,
-    .pin:focus {
-        transform: scale(1.2);
-        outline: 2px solid #766852;
-    }
-
-    .business {
-        background: #896d50;
-    }
-
-    .school {
-        background: #74634e;
-    }
-
-    .home {
-        background: #65785d;
-    }
-
-    .nature {
-        background: #5f7658;
-    }
-
-    .civic {
-        background: #67655e;
-    }
-
-    .pin-label {
-        position: absolute;
-        z-index: 4;
-        background: rgba(250,247,239,0.9);
-        padding: 4px 6px;
-        border-radius: 4px;
-        font-family: Arial, sans-serif;
-        font-size: 10px;
-        color: #504a41;
-        white-space: nowrap;
-    }
-
-    /* Information panel */
 
     .information {
-        margin-top: 20px;
-        background: #faf7ef;
-        border: 1px solid #c6bdac;
-        border-radius: 8px;
-        padding: 28px;
-        min-height: 220px;
+        padding: 22px;
     }
 
-    .category {
-        text-transform: uppercase;
-        letter-spacing: 0.15em;
-        font-family: Arial, sans-serif;
-        font-size: 11px;
-        color: #8a7b68;
+    .pin {
+        width: 30px;
+        height: 30px;
     }
 
-    .information h2 {
-        font-size: 28px;
-        margin: 8px 0;
-        font-weight: normal;
-    }
+}
 
-    .information p {
-        max-width: 800px;
-        line-height: 1.7;
-        color: #5f594f;
-    }
-
-    .details {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-        margin-top: 15px;
-    }
-
-    .tag {
-        background: #e7e0d3;
-        padding: 6px 10px;
-        border-radius: 15px;
-        font-family: Arial, sans-serif;
-        font-size: 11px;
-    }
-
-    footer {
-        text-align: center;
-        padding: 35px 20px;
-        color: #777064;
-        font-size: 12px;
-        border-top: 1px solid #c8c0b0;
-    }
-
-    @media (max-width: 700px) {
-
-        .map-area {
-            min-height: 520px;
-        }
-
-        .information {
-            padding: 20px;
-        }
-
-        .pin {
-            width: 32px;
-            height: 32px;
-        }
-
-        .pin-label {
-            display: none;
-        }
-    }
 </style>
+
 </head>
+
 
 <body>
 
+
 <header>
+
     <h1>MAPLERIDGE</h1>
+
     <p>An Interactive Digital Atlas</p>
+
 </header>
 
+
 <nav>
-    <button onclick="showCategory('all')">Everything</button>
-    <button onclick="showCategory('business')">Businesses</button>
-    <button onclick="showCategory('school')">Schools</button>
-    <button onclick="showCategory('home')">Homes</button>
-    <button onclick="showCategory('nature')">Nature</button>
-    <button onclick="showCategory('civic')">Civic</button>
+
+    <button onclick="showCategory('all')">
+        Everything
+    </button>
+
+    <button onclick="showCategory('business')">
+        Businesses
+    </button>
+
+    <button onclick="showCategory('school')">
+        Schools
+    </button>
+
+    <button onclick="showCategory('home')">
+        Homes
+    </button>
+
+    <button onclick="showCategory('nature')">
+        Nature
+    </button>
+
+    <button onclick="showCategory('civic')">
+        Civic
+    </button>
+
 </nav>
 
+
 <section class="intro">
+
     <h2>Welcome to Mapleridge</h2>
 
     <p>
-        A small town in southwestern Ontario, where ordinary streets
-        hide extraordinary stories. Explore the places that make
+        A small town in southwestern Ontario,
+        where ordinary streets hide extraordinary stories.
+        Explore the places, people, and secrets that make
         Mapleridge home.
     </p>
+
 </section>
+
 
 <main class="atlas">
 
-    <section class="map-area">
 
-        <div class="road horizontal"></div>
-        <div class="road vertical"></div>
-        <div class="road diagonal-one"></div>
-        <div class="road diagonal-two"></div>
+<section class="map-wrapper">
 
-        <div class="creek"></div>
-        <div class="woodland"></div>
 
-        <div class="town-label" style="left:44%; top:8%;">
-            MONUMENT ROW
-        </div>
+<div class="map">
 
-        <div class="town-label" style="left:44%; top:24%;">
-            NORTHVIEW DRIVE
-        </div>
 
-        <div class="town-label" style="left:71%; top:35%;">
-            CEDAR GROVE ROAD
-        </div>
+<img
+    src="mapleridge-map-cleaned.png"
+    alt="Hand-drawn map of Mapleridge"
+>
 
-        <div class="town-label" style="left:35%; top:52%;">
-            MAIN STREET
-        </div>
 
-        <div class="town-label" style="left:42%; bottom:10%;">
-            BLACKWATER CREEK
-        </div>
+<!-- ===================================== -->
+<!-- SCHOOLS -->
+<!-- ===================================== -->
 
-        <!-- SCHOOLS -->
 
-        <button class="pin school"
-            style="left:12%; top:18%;"
-            onclick="showPlace('Mapleridge Elementary School','School','The town elementary school.','School • Public • Mapleridge')">
-            1
-        </button>
+<button
+    class="pin school"
+    style="left: 74%; top: 91%;"
+    onclick="showPlace(
+        'Mapleridge Elementary School',
+        'School',
+        'The elementary school serving the younger children of Mapleridge.',
+        ['School','Location 1','Mapleridge']
+    )"
+>1</button>
 
-        <button class="pin school"
-            style="left:20%; top:38%;"
-            onclick="showPlace('Mapleridge Secondary School','School','The secondary school attended by Mapleridge’s teenage characters.','School • Characters • Main story location')">
-            2
-        </button>
 
-        <!-- BUSINESSES -->
+<button
+    class="pin school"
+    style="left: 81%; top: 91%;"
+    onclick="showPlace(
+        'Mapleridge Secondary School',
+        'School',
+        'The secondary school attended by many of Mapleridge’s teenage characters.',
+        ['School','Location 2','Teen characters']
+    )"
+>2</button>
 
-        <button class="pin business"
-            style="left:34%; top:45%;"
-            onclick="showPlace('Nooks & Books','Business','A beloved local bookstore where Vera Novak rents a room.','Bookstore • Vera • Main Street')">
-            6
-        </button>
 
-        <button class="pin business"
-            style="left:41%; top:55%;"
-            onclick="showPlace('Mini Mae’s Sweets','Business','A local sweets and bakery shop.','Bakery • Food • Community')">
-            7
-        </button>
+<button
+    class="pin stable"
+    style="left: 68%; top: 5%;"
+    onclick="showPlace(
+        'Maple Hollow Stables',
+        'Stable',
+        'The local stables and riding grounds.',
+        ['Stables','Location 3','Horses']
+    )"
+>3</button>
 
-        <button class="pin business"
-            style="left:46%; top:42%;"
-            onclick="showPlace('Bellamy’s Pharmacy','Business','Mapleridge’s local pharmacy.','Pharmacy • Main Street')">
-            8
-        </button>
 
-        <button class="pin business"
-            style="left:53%; top:45%;"
-            onclick="showPlace('Petals & Pine Florals','Business','The town flower shop.','Flowers • Business')">
-            9
-        </button>
+<button
+    class="pin civic"
+    style="left: 72%; top: 35%;"
+    onclick="showPlace(
+        'St. Agnes Anglican Church',
+        'Civic',
+        'The historic Anglican church in Mapleridge.',
+        ['Church','Location 4','St. Agnes']
+    )"
+>4</button>
 
-        <button class="pin business"
-            style="left:28%; top:47%;"
-            onclick="showPlace('The Midnight Sun Café','Business','Lillian Mercer’s café and one of Mapleridge’s most important social hubs.','Café • Lillian Mercer • Briar • Vera')">
-            10
-        </button>
 
-        <button class="pin business"
-            style="left:60%; top:43%;"
-            onclick="showPlace('Holloway Records & Repairs','Business','A record shop and repair business.','Music • Records • Business')">
-            11
-        </button>
+<button
+    class="pin nature"
+    style="left: 81%; top: 37%;"
+    onclick="showPlace(
+        'St. Agnes Cemetery',
+        'Nature',
+        'The cemetery surrounding St. Agnes Church.',
+        ['Cemetery','Location 5','St. Agnes']
+    )"
+>5</button>
 
-        <button class="pin business"
-            style="left:67%; top:49%;"
-            onclick="showPlace('The Painted Vale','Business','Sienna Vale’s art shop.','Art • Sienna Vale • Business')">
-            12
-        </button>
 
-        <button class="pin business"
-            style="left:72%; top:56%;"
-            onclick="showPlace('Carter & Sons Hardware','Business','A longstanding local hardware store.','Hardware • Family business')">
-            14
-        </button>
+<!-- ===================================== -->
+<!-- BUSINESSES -->
+<!-- ===================================== -->
 
-        <!-- CIVIC -->
 
-        <button class="pin civic"
-            style="left:57%; top:54%;"
-            onclick="showPlace('Mapleridge Post Office','Civic','The town post office.','Civic • Town')">
-            13
-        </button>
+<button
+    class="pin business"
+    style="left: 49%; top: 49%;"
+    onclick="showPlace(
+        'Nooks & Books',
+        'Business',
+        'A beloved local bookstore and one of Mapleridge’s literary gathering places.',
+        ['Bookstore','Location 6','Business']
+    )"
+>6</button>
 
-        <button class="pin civic"
-            style="left:46%; top:64%;"
-            onclick="showPlace('Mapleridge Town Hall','Civic','The centre of municipal life in Mapleridge.','Civic • Government • Town')">
-            16
-        </button>
 
-        <button class="pin civic"
-            style="left:63%; top:75%;"
-            onclick="showPlace('Mapleridge Police Station','Civic','The town police station.','Police • Civic • Town')">
-            21
-        </button>
+<button
+    class="pin business"
+    style="left: 53%; top: 51%;"
+    onclick="showPlace(
+        'Mini Mae’s Sweets',
+        'Business',
+        'A charming local sweets and bakery shop.',
+        ['Bakery','Location 7','Food']
+    )"
+>7</button>
 
-        <!-- NATURE -->
 
-        <button class="pin nature"
-            style="left:18%; top:80%;"
-            onclick="showPlace('The Hollow Grove','Nature','A secluded woodland location with mysterious significance. This will eventually become part of the magical side of Mapleridge.','Woods • Coven • Magic • Secret')">
-            18
-        </button>
+<button
+    class="pin business"
+    style="left: 57%; top: 49%;"
+    onclick="showPlace(
+        'Bellamy’s Pharmacy',
+        'Business',
+        'Mapleridge’s local pharmacy.',
+        ['Pharmacy','Location 8','Business']
+    )"
+>8</button>
 
-        <button class="pin nature"
-            style="left:88%; top:78%;"
-            onclick="showPlace('Bellwood Community Park','Nature','A community park in Mapleridge.','Park • Community')">
-            22
-        </button>
 
-        <button class="pin nature"
-            style="left:55%; top:84%;"
-            onclick="showPlace('Mapleridge Community Park','Nature','The larger community park near Blackwater Creek.','Park • Community • Creek')">
-            23
-        </button>
+<button
+    class="pin business"
+    style="left: 61%; top: 49%;"
+    onclick="showPlace(
+        'Petals & Pine Florals',
+        'Business',
+        'The town flower shop.',
+        ['Flowers','Location 9','Business']
+    )"
+>9</button>
 
-        <!-- HOMES -->
 
-        <button class="pin home"
-            style="left:24%; top:58%;"
-            onclick="showPlace('Briar Vale’s Home','Home','Briar Elowen Vale’s home. This will eventually connect directly to Briar’s character page.','Briar Vale • Home • Earth Witch')">
-            B
-        </button>
+<button
+    class="pin business"
+    style="left: 44%; top: 49%;"
+    onclick="showPlace(
+        'The Midnight Sun',
+        'Business',
+        'Lillian Mercer’s café and one of the most important social hubs in Mapleridge.',
+        ['Café','Location 10','Lillian Mercer']
+    )"
+>10</button>
 
-        <button class="pin home"
-            style="left:67%; top:59%;"
-            onclick="showPlace('Vera Novak’s Home','Home','Vera Katarina Novak’s home.','Vera Novak • Home • Air Witch')">
-            V
-        </button>
 
-        <button class="pin home"
-            style="left:79%; top:58%;"
-            onclick="showPlace('Clara Carter’s Home','Home','Clara Evangeline Carter’s home.','Clara Carter • Home • Fire Witch')">
-            C
-        </button>
+<button
+    class="pin business"
+    style="left: 65%; top: 49%;"
+    onclick="showPlace(
+        'Holloway Records & Repairs',
+        'Business',
+        'A local record shop and repair business.',
+        ['Records','Location 11','Music']
+    )"
+>11</button>
 
-        <button class="pin home"
-            style="left:36%; top:51%;"
-            onclick="showPlace('Isolde Clarke’s Home','Home','Isolde Maeve Clarke’s home.','Isolde Clarke • Home • Water Witch')">
-            I
-        </button>
 
-    </section>
+<button
+    class="pin business"
+    style="left: 70%; top: 49%;"
+    onclick="showPlace(
+        'The Painted Vale',
+        'Business',
+        'A local art shop connected to the Vale family.',
+        ['Art','Location 12','Sienna Vale']
+    )"
+>12</button>
 
-    <section class="information">
 
-        <div class="category" id="placeCategory">
-            MAPLERIDGE
-        </div>
+<button
+    class="pin civic"
+    style="left: 74%; top: 49%;"
+    onclick="showPlace(
+        'Mapleridge Post Office',
+        'Civic',
+        'The town post office.',
+        ['Post Office','Location 13','Civic']
+    )"
+>13</button>
 
-        <h2 id="placeTitle">
-            Choose a location
-        </h2>
 
-        <p id="placeDescription">
-            Tap one of the numbered locations on the map to explore
-            Mapleridge. This is the beginning of your digital atlas.
-        </p>
+<button
+    class="pin business"
+    style="left: 78%; top: 50%;"
+    onclick="showPlace(
+        'Carter & Sons Hardware',
+        'Business',
+        'A longstanding local hardware store.',
+        ['Hardware','Location 14','Carter Family']
+    )"
+>14</button>
 
-        <div class="details" id="placeDetails">
-            <span class="tag">23 numbered locations</span>
-            <span class="tag">4 character homes</span>
-            <span class="tag">Interactive</span>
-        </div>
 
-    </section>
+<!-- ===================================== -->
+<!-- CIVIC / COMMUNITY -->
+<!-- ===================================== -->
+
+
+<button
+    class="pin civic"
+    style="left: 49%; top: 47%;"
+    onclick="showPlace(
+        'Mapleridge Public Library',
+        'Civic',
+        'The public library of Mapleridge.',
+        ['Library','Location 15','Community']
+    )"
+>15</button>
+
+
+<button
+    class="pin civic"
+    style="left: 42%; top: 49%;"
+    onclick="showPlace(
+        'Mapleridge Town Hall',
+        'Civic',
+        'The centre of municipal life in Mapleridge.',
+        ['Town Hall','Location 16','Government']
+    )"
+>16</button>
+
+
+<button
+    class="pin civic"
+    style="left: 91%; top: 77%;"
+    onclick="showPlace(
+        'Hawthorne Ridge Estate',
+        'Civic',
+        'A large historic estate overlooking part of Mapleridge.',
+        ['Estate','Location 17','Historic']
+    )"
+>17</button>
+
+
+<!-- ===================================== -->
+<!-- NATURE -->
+<!-- ===================================== -->
+
+
+<button
+    class="pin nature"
+    style="left: 88%; top: 63%;"
+    onclick="showPlace(
+        'The Hollow Grove',
+        'Nature',
+        'A secluded woodland area with a much deeper significance to the story of Mapleridge.',
+        ['Woods','Location 18','Coven','Secret']
+    )"
+>18</button>
+
+
+<button
+    class="pin business"
+    style="left: 91%; top: 54%;"
+    onclick="showPlace(
+        'Harvest Market',
+        'Business',
+        'A seasonal community market.',
+        ['Market','Location 19','Community']
+    )"
+>19</button>
+
+
+<button
+    class="pin business"
+    style="left: 95%; top: 59%;"
+    onclick="showPlace(
+        'Blackwater Fuel & Convenience',
+        'Business',
+        'A local fuel and convenience stop near Blackwater Creek.',
+        ['Fuel','Location 20','Blackwater']
+    )"
+>20</button>
+
+
+<button
+    class="pin civic"
+    style="left: 65%; top: 80%;"
+    onclick="showPlace(
+        'Mapleridge Police Station',
+        'Civic',
+        'The town police station.',
+        ['Police','Location 21','Civic']
+    )"
+>21</button>
+
+
+<button
+    class="pin nature"
+    style="left: 93%; top: 88%;"
+    onclick="showPlace(
+        'Bellwood Community Park',
+        'Nature',
+        'A community park in Mapleridge.',
+        ['Park','Location 22','Community']
+    )"
+>22</button>
+
+
+<button
+    class="pin nature"
+    style="left: 57%; top: 87%;"
+    onclick="showPlace(
+        'Mapleridge Community Park',
+        'Nature',
+        'A larger community park near Blackwater Creek.',
+        ['Park','Location 23','Community']
+    )"
+>23</button>
+
+
+<!-- ===================================== -->
+<!-- CHARACTER HOMES -->
+<!-- ===================================== -->
+
+
+<button
+    class="pin character-pin isabel"
+    style="left: 56%; top: 51%;"
+    onclick="showPlace(
+        'Isabel Clarke’s Home',
+        'Character Home',
+        'Isabel Clarke’s home in Mapleridge. Isabel is the character formerly referred to as Isolde.',
+        ['Isabel Clarke','Water Witch','Home']
+    )"
+>I</button>
+
+
+<button
+    class="pin character-pin briar"
+    style="left: 51%; top: 57%;"
+    onclick="showPlace(
+        'Briar Vale’s Home',
+        'Character Home',
+        'Briar Vale’s home in Mapleridge.',
+        ['Briar Vale','Earth Witch','Home']
+    )"
+>B</button>
+
+
+<button
+    class="pin character-pin vera"
+    style="left: 78%; top: 58%;"
+    onclick="showPlace(
+        'Vera Novak’s Home',
+        'Character Home',
+        'Vera Novak’s home in Mapleridge.',
+        ['Vera Novak','Air Witch','Home']
+    )"
+>V</button>
+
+
+<button
+    class="pin character-pin clara"
+    style="left: 84%; top: 58%;"
+    onclick="showPlace(
+        'Clara Carter’s Home',
+        'Character Home',
+        'Clara Carter’s home in Mapleridge.',
+        ['Clara Carter','Fire Witch','Home']
+    )"
+>C</button>
+
+
+</div>
+
+
+<div class="map-note">
+    Click a location to explore Mapleridge.
+</div>
+
+
+</section>
+
+
+<!-- ===================================== -->
+<!-- INFORMATION -->
+<!-- ===================================== -->
+
+
+<section class="information">
+
+    <div
+        class="category"
+        id="placeCategory"
+    >
+        MAPLERIDGE
+    </div>
+
+
+    <h2 id="placeTitle">
+        Explore the town
+    </h2>
+
+
+    <p id="placeDescription">
+        Click one of the numbered locations or character homes
+        on the map to begin exploring Mapleridge.
+    </p>
+
+
+    <div
+        class="details"
+        id="placeDetails"
+    >
+
+        <span class="tag">
+            23 locations
+        </span>
+
+        <span class="tag">
+            4 character homes
+        </span>
+
+        <span class="tag">
+            Interactive map
+        </span>
+
+    </div>
+
+</section>
+
 
 </main>
 
+
 <footer>
-    Mapleridge Digital Atlas · A living worldbuilding project
+
+    Mapleridge Digital Atlas
+    ·
+    A living worldbuilding project
+
 </footer>
+
 
 <script>
 
-function showPlace(title, category, description, details) {
 
-    document.getElementById("placeTitle").textContent = title;
+function showPlace(
+    title,
+    category,
+    description,
+    details
+) {
 
-    document.getElementById("placeCategory").textContent = category;
+    document.getElementById(
+        "placeTitle"
+    ).textContent = title;
 
-    document.getElementById("placeDescription").textContent = description;
 
-    const detailsBox = document.getElementById("placeDetails");
+    document.getElementById(
+        "placeCategory"
+    ).textContent = category;
+
+
+    document.getElementById(
+        "placeDescription"
+    ).textContent = description;
+
+
+    const detailsBox =
+        document.getElementById(
+            "placeDetails"
+        );
+
 
     detailsBox.innerHTML = "";
 
-    details.split(" • ").forEach(function(detail) {
 
-        const tag = document.createElement("span");
+    details.forEach(function(detail) {
+
+        const tag =
+            document.createElement("span");
 
         tag.className = "tag";
 
@@ -547,36 +874,52 @@ function showPlace(title, category, description, details) {
 
     });
 
-    document.querySelector(".information").scrollIntoView({
-        behavior: "smooth",
-        block: "nearest"
-    });
+
+    document
+        .querySelector(".information")
+        .scrollIntoView({
+            behavior: "smooth",
+            block: "nearest"
+        });
+
 }
 
 
 function showCategory(category) {
 
-    const pins = document.querySelectorAll(".pin");
+    const pins =
+        document.querySelectorAll(".pin");
+
 
     pins.forEach(function(pin) {
 
         if (category === "all") {
+
             pin.style.display = "block";
+
         }
 
-        else if (pin.classList.contains(category)) {
+        else if (
+            pin.classList.contains(category)
+        ) {
+
             pin.style.display = "block";
+
         }
 
         else {
+
             pin.style.display = "none";
+
         }
 
     });
 
 }
 
+
 </script>
+
 
 </body>
 </html>
