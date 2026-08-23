@@ -1152,17 +1152,32 @@ document
 
     });
     
-    // MAP ZOOM CONTROLS
-    let mapZoom = 1;
+// MAP ZOOM CONTROLS
+let mapZoom = 1;
 
-    function zoomMap(amount) {
-        mapZoom *= amount;
-        document.querySelector('.map').style.transform = `scale(${mapZoom})`;
-    }
+function updatePinScale() {
+    const pins = document.querySelectorAll('.pin');
 
-    function resetMap() {
-        mapZoom = 1;
-        document.querySelector('.map').style.transform = 'scale(1)';
-    }
+    pins.forEach(pin => {
+        const pinScale = 1 / Math.pow(mapZoom, 2);
+        pin.style.transform = `translate(-50%, -50%) scale(${pinScale})`;
+    });
+}
+
+function zoomMap(amount) {
+    mapZoom *= amount;
+
+    document.querySelector('.map').style.transform = `scale(${mapZoom})`;
+
+    updatePinScale();
+}
+
+function resetMap() {
+    mapZoom = 1;
+
+    document.querySelector('.map').style.transform = 'scale(1)';
+
+    updatePinScale();
+}
 
 </script>
