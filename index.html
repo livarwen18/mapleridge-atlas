@@ -1159,7 +1159,7 @@ function updatePinScale() {
     const pins = document.querySelectorAll('.pin');
 
     pins.forEach(pin => {
-        const pinScale = 1 / Math.pow(mapZoom, 2);
+        const pinScale = 1 / Math.pow(mapZoom, 1.4);
         pin.style.transform = `translate(-50%, -50%) scale(${pinScale})`;
     });
 }
