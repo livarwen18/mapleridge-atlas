@@ -1147,5 +1147,19 @@ document
         );
 
     });
+    });
+    
+    // MAP ZOOM CONTROLS
+    let mapZoom = 1;
+
+    function zoomMap(amount) {
+        mapZoom *= amount;
+        document.querySelector('.map').style.transform = `scale(${mapZoom})`;
+    }
+
+    function resetMap() {
+        mapZoom = 1;
+        document.querySelector('.map').style.transform = 'scale(1)';
+    }
 
 </script>
