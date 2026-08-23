@@ -114,6 +114,8 @@ nav button:hover {
     width: 100%;
     min-width: 750px;
     line-height: 0;
+    transform-origin: top left;
+    transition: transform 0.15s ease;
 }
 
 .map img {
@@ -122,6 +124,35 @@ nav button:hover {
     display: block;
 }
 
+    /* MAP CONTROLS */
+
+.map-controls {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.map-controls button {
+    width: 42px;
+    height: 42px;
+    border: 1px solid #aaa08f;
+    border-radius: 6px;
+    background: #fffaf0;
+    color: #302d27;
+    font-size: 22px;
+    font-family: Georgia, "Times New Roman", serif;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(60,50,40,0.18);
+}
+
+.map-controls button:hover {
+    background: #eee5d5;
+}
+    
 /* MAP PINS */
 
 .pin {
